@@ -26,7 +26,7 @@ namespace Lab.RockPaperScissors.BusinessLogic
         /// <returns>Returns winner of type Playe</returns>
         public Player rps_tournament_winner(string tournamentArray)
         {
-            var tournament = Tournament.Parse(tournamentArray);
+            var tournament = TournamentFactory.Parse(tournamentArray);
             var finals = new Game();
             finals.Players = new List<Player>();
             finals.Players.Add(GetRoundWinner(tournament.Rounds[0]));

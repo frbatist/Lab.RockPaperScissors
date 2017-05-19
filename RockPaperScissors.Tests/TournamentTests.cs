@@ -44,7 +44,7 @@ namespace RockPaperScissors.Tests
             encodedArray.Append("   ]");
             encodedArray.Append("]");
 
-            var tournament = Tournament.Parse(encodedArray.ToString());
+            var tournament = TournamentFactory.Parse(encodedArray.ToString());
         }
 
         [TestMethod]
@@ -71,7 +71,7 @@ namespace RockPaperScissors.Tests
             encodedArray.Append("   ]");
             encodedArray.Append("]");
 
-            var tournament = Tournament.Parse(encodedArray.ToString());
+            var tournament = TournamentFactory.Parse(encodedArray.ToString());
         }
 
         [TestMethod]
@@ -124,7 +124,7 @@ namespace RockPaperScissors.Tests
             encodedArray.Append("       ]");
             encodedArray.Append("   ]");
 
-            var tournament = Tournament.Parse(encodedArray.ToString());
+            var tournament = TournamentFactory.Parse(encodedArray.ToString());
         }
         [TestMethod]
         [ExpectedException(typeof(WrongEncodedArrayFormat))]
@@ -146,7 +146,7 @@ namespace RockPaperScissors.Tests
             encodedArray.Append("       ]");
             encodedArray.Append("]");
 
-            var tournament = Tournament.Parse(encodedArray.ToString());
+            var tournament = TournamentFactory.Parse(encodedArray.ToString());
         }
     }
 }
