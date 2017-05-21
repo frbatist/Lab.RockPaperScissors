@@ -32,23 +32,23 @@ namespace Lab.RockPaperScissors.BusinessLogic
 
         private static Round BuildRound(JToken itemRound)
         {
-            bool arrayOfRounds = false;
-            try
-            {
-                if()
-
-                //if value of third level node is of value type, it means that it's a game node
-                arrayOfRounds = !(itemRound.First().First().First() is JValue);
-            }
-            catch (Exception ex)
-            {
-                throw new WrongEncodedArrayFormat(innerException:ex);
-            }
-
-            if (arrayOfRounds)
+            if (IsArrayOfRounds(itemRound))
                 return NestRound(itemRound);
             else
                 return BuildGameList(itemRound);
+        }
+
+        private static bool IsArrayOfRounds(JToken itemRound)
+        {
+            try
+            {
+                return !(itemRound.First().First().First() is JValue);
+            }
+            catch (Exception ex)
+            {
+
+                throw new WrongEncodedArrayFormat(innerException: ex); 
+            }
         }
 
         private static Round NestRound(JToken itemRound)
