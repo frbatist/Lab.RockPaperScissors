@@ -44,24 +44,40 @@ namespace RockPaperScissors.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(WrongNumberOfPlayersError), AllowDerivedTypes = true)]
+        //[ExpectedException(typeof(WrongNumberOfPlayersError), AllowDerivedTypes = true)]
         public void MustCheckNumberOfPlayers()
         {
             var player1 = new Player { Name = "Jose", Strategy = "S" };
             var player2 = new Player { Name = "joão", Strategy = "P" };
             var player3 = new Player { Name = "Intruder", Strategy = "R" };
             var gamePlay = new GamePlay();
-            var winner = gamePlay.rps_game_winner(new Player[] { player1, player2, player3 });
+
+            try
+            {
+                var winner = gamePlay.rps_game_winner(new Player[] { player1, player2, player3 });
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(typeof(WrongNumberOfPlayersError), ex.GetType());
+            }            
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NoSuchStrategyError), AllowDerivedTypes = true)]
+        //[ExpectedException(typeof(NoSuchStrategyError), AllowDerivedTypes = true)]
         public void MustCheckForInvalidStrategy()
         {
             var player1 = new Player { Name = "Jose", Strategy = "S" };
             var player2 = new Player { Name = "joão", Strategy = "X" };            
             var gamePlay = new GamePlay();
-            var winner = gamePlay.rps_game_winner(new Player[] { player1, player2 });
+
+            try
+            {
+                var winner = gamePlay.rps_game_winner(new Player[] { player1, player2 });
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(typeof(NoSuchStrategyError), ex.GetType());
+            }            
         }
     }
 }

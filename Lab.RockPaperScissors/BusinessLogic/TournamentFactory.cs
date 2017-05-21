@@ -17,9 +17,9 @@ namespace Lab.RockPaperScissors.BusinessLogic
             {
                 rounds = JsonConvert.DeserializeObject<JArray>(data);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new WrongEncodedArrayFormat();
+                throw new WrongEncodedArrayFormat(innerException: ex);
             }
             var tournament = new Tournament();            
             foreach (var itemRound in rounds.Children())
@@ -35,13 +35,14 @@ namespace Lab.RockPaperScissors.BusinessLogic
             bool arrayOfRounds = false;
             try
             {
-                //if value of third level node is of type string, it means that it's a game node
-                var valueNestedNode = (JValue)itemRound.First().First().First();
-                arrayOfRounds = !typeof(string).IsInstanceOfType(valueNestedNode.Value);
+                if()
+
+                //if value of third level node is of value type, it means that it's a game node
+                arrayOfRounds = !(itemRound.First().First().First() is JValue);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new WrongEncodedArrayFormat();
+                throw new WrongEncodedArrayFormat(innerException:ex);
             }
 
             if (arrayOfRounds)

@@ -19,9 +19,16 @@ namespace Lab.RockPaperScissors.Controllers
         [HttpPost]
         public ActionResult Index(string array)
         {
-            var gamePlay = new GamePlay();
-            var winner = gamePlay.rps_tournament_winner(array);
-            ViewBag.Winner = winner.Name;
+            try
+            {
+                var gamePlay = new GamePlay();
+                var winner = gamePlay.rps_tournament_winner(array);
+                ViewBag.Winner = winner.Name;
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Winner = ex.Message;
+            }
             return View();
         }
     }

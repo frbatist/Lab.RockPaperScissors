@@ -26,6 +26,7 @@ namespace Lab.RockPaperScissors.BusinessLogic
         /// <returns>Returns winner of type Playe</returns>
         public Player rps_tournament_winner(string tournamentArray)
         {
+            tournamentArray = tournamentArray.Replace("\t", "");
             var tournament = TournamentFactory.Parse(tournamentArray);
             var finals = new Game()
             {
@@ -44,12 +45,10 @@ namespace Lab.RockPaperScissors.BusinessLogic
             {
                 return GetGamesWinner((round.Itens as List<Game>).ToArray());
             }
-            foreach (var item in round.Itens)
+
+            if (round.Itens is List<Round>)
             {
-                if (item is List<Round>)
-                {
-                    return GetRoundsCollectionWinner((Round[])item);                    
-                }
+                return GetRoundsCollectionWinner((round.Itens as List<Round>).ToArray());
             }
             throw new EmptyRoundError();
         }

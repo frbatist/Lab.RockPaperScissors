@@ -7,8 +7,8 @@ namespace Lab.RockPaperScissors.Exceptions
 {
     public class WrongEncodedArrayFormat : Exception
     {
-        public WrongEncodedArrayFormat(string message = "Invalid encoded bracketed array format!") 
-            : base(message)
+        public WrongEncodedArrayFormat(string message = "Invalid encoded bracketed array format!", Exception innerException = null) 
+            : base(message, innerException)
         {
         }
     }
