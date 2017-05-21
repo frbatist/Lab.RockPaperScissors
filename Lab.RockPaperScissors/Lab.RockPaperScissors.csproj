@@ -153,6 +153,7 @@
     <Compile Include="BusinessLogic\DTO\Tournament.cs" />
     <Compile Include="BusinessLogic\TournamentFactory.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Exceptions\EmptyRoundError.cs" />
     <Compile Include="Exceptions\NoSuchStrategyError.cs" />
     <Compile Include="Exceptions\WrongEncodedArrayFormat.cs" />
     <Compile Include="Exceptions\WrongNumberOfPlayersError..cs" />

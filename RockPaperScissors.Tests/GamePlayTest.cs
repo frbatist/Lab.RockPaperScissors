@@ -44,7 +44,7 @@ namespace RockPaperScissors.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(WrongNumberOfPlayersError))]
+        [ExpectedException(typeof(WrongNumberOfPlayersError), AllowDerivedTypes = true)]
         public void MustCheckNumberOfPlayers()
         {
             var player1 = new Player { Name = "Jose", Strategy = "S" };
@@ -55,7 +55,7 @@ namespace RockPaperScissors.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NoSuchStrategyError))]
+        [ExpectedException(typeof(NoSuchStrategyError), AllowDerivedTypes = true)]
         public void MustCheckForInvalidStrategy()
         {
             var player1 = new Player { Name = "Jose", Strategy = "S" };

@@ -27,59 +27,92 @@ namespace Lab.RockPaperScissors.BusinessLogic
         public Player rps_tournament_winner(string tournamentArray)
         {
             var tournament = TournamentFactory.Parse(tournamentArray);
-            var finals = new Game();
-            finals.Players = new List<Player>();
-            finals.Players.Add(GetRoundWinner(tournament.Rounds[0]));
-            finals.Players.Add(GetRoundWinner(tournament.Rounds[1]));
+            var finals = new Game()
+            {
+                Players = new List<Player>()
+                {
+                    GetRoundWinner(tournament.Rounds[0]),
+                    GetRoundWinner(tournament.Rounds[1])
+                }
+            };
             return rps_game_winner(finals.Players.ToArray());
         }
 
         private Player GetRoundWinner(Round round)
         {
-            if (round.Games.Count == 1)
+            if (round.Itens is List<Game>)
             {
-                return rps_game_winner(round.Games[0].Players.ToArray());
+                return GetGamesWinner((round.Itens as List<Game>).ToArray());
             }
-            List<Player> winners = GetWinners(round.Games);
-            return GetRoundWinner(MakeNewRound(winners));
+            foreach (var item in round.Itens)
+            {
+                if (item is List<Round>)
+                {
+                    return GetRoundsCollectionWinner((Round[])item);                    
+                }
+            }
+            throw new EmptyRoundError();
         }
 
-        private Round MakeNewRound(List<Player> winners)
+        private Player GetRoundsCollectionWinner(Round[] rounds)
         {
-            var newRound = new Round();
-            newRound.Games.Add(new Game());
+            List<Player> winners = new List<Player>();
+            foreach (var item in rounds)
+            {
+                winners.Add(GetRoundWinner(item));
+            }
+            var newRound = MakeNewRound(winners.ToArray());
+            return GetGamesWinner(newRound);
+        }
 
+        private Player GetGamesWinner(Game[] games)
+        {
+            if (games.Count() == 1)
+            {                
+                return rps_game_winner(games[0].Players.ToArray());
+            }
+            Player[] winners = GetGamesWinners(games);
+            var newRound = MakeNewRound(winners);
+            return GetGamesWinner(newRound);
+        }
+
+        private Game[] MakeNewRound(Player[] winners)
+        {
+            var newRound = new List<Game>
+            {
+                new Game()
+            };
             int gameIndex = 1;
             int playersIndex = 1;
             foreach (var item in winners)
             {
                 if (gameIndex == 1)
                 {
-                    newRound.Games.First().Players.Add(item);
+                    newRound.First().Players.Add(item);
                     gameIndex++;
                 }
                 else
                 {
-                    newRound.Games.First().Players.Add(item);
+                    newRound.First().Players.Add(item);
                     if (playersIndex < winners.Count())
                     {
-                        newRound.Games.Add(new Game());
+                        newRound.Add(new Game());
                         gameIndex = 1;
                     }
                 }
                 playersIndex++;
             }
-            return newRound;
+            return newRound.ToArray();
         }
 
-        private List<Player> GetWinners(List<Game> games)
+        private Player[] GetGamesWinners(Game[] games)
         {
             var winners = new List<Player>();
             foreach (var game in games)
             {
                 winners.Add(rps_game_winner(game.Players.ToArray()));
             }
-            return winners;
+            return winners.ToArray();
         }
 
         private Player GetWinner(Player player1, Player player2)

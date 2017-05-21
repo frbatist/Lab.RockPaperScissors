@@ -32,21 +32,60 @@ namespace Lab.RockPaperScissors.BusinessLogic
 
         private static Round BuildRound(JToken itemRound)
         {
-            var round = new Round();
-            round.Games = new List<Game>();
+            bool arrayOfRounds = false;
+            try
+            {
+                //if value of third level node is of type string, it means that it's a game node
+                var valueNestedNode = (JValue)itemRound.First().First().First();
+                arrayOfRounds = !typeof(string).IsInstanceOfType(valueNestedNode.Value);
+            }
+            catch (Exception)
+            {
+                throw new WrongEncodedArrayFormat();
+            }
+
+            if (arrayOfRounds)
+                return NestRound(itemRound);
+            else
+                return BuildGameList(itemRound);
+        }
+
+        private static Round NestRound(JToken itemRound)
+        {
+            var round = new Round()
+            {
+                Itens = new List<Round>()
+            };
+            JArray rounds = (JArray)itemRound;
+            foreach (var item in rounds.Children())
+            {
+                var newRound = BuildRound(item);
+                round.Itens.Add(newRound);
+            }
+            return round;
+        }
+
+        private static Round BuildGameList(JToken itemRound)
+        {
+            var round = new Round()
+            {
+                Itens = new List<Game>()
+            };
             JArray games = (JArray)itemRound;
             foreach (var itemGame in games.Children())
             {
                 var game = BuildGame(itemGame);
-                round.Games.Add(game);
+                round.Itens.Add(game);
             }
             return round;
         }
 
         private static Game BuildGame(JToken itemGame)
         {
-            var game = new Game();
-            game.Players = new List<Player>();
+            var game = new Game()
+            {
+                Players = new List<Player>()
+            };
             var players = (JArray)itemGame;
             foreach (var player in players)
             {

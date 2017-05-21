@@ -14,12 +14,14 @@ namespace Lab.RockPaperScissors.Controllers
     {
         public ActionResult Index()
         {
-            string array = "[[[[\"Armando\", \"P\"],[\"Dave\", \"S\"]],[[\"Richard\", \"R\"],[\"Michael\", \"S\"]],]" +
-                ",[[[\"Allen\", \"S\"],[\"Omer\", \"P\"]],[[\"David E.\", \"R\"],[\"Richard X.\", \"P\"]]]]";
-
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Index(string array)
+        {
             var gamePlay = new GamePlay();
             var winner = gamePlay.rps_tournament_winner(array);
-
+            ViewBag.Winner = winner.Name;
             return View();
         }
     }

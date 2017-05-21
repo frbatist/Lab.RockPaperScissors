@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace RockPaperScissors.Tests
 {
-    [TestClass]
+    [TestClass()]
     public class TournamentTests
     {
-        [TestMethod]
+        [TestMethod()]
         [ExpectedException(typeof(WrongNumberOfTournamentRounds))]
         public void MustCheckNumberOfInicialRounds()
         {
